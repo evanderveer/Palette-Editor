@@ -57,3 +57,6 @@ class Elements():
 
         self.file_name_label = ttk.Label(self.frame, text='Select a file')
         self.file_name_label.grid(column=0, columnspan=2,row=5, **options)
+        
+        self.file_gen_label = ttk.Label(self.frame, text='')
+        self.file_gen_label.grid(column=0, columnspan=2,row=6, **options)

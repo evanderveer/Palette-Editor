@@ -3,7 +3,6 @@ from tkinter import ttk
 from tkinter import colorchooser 
 from tkinter import filedialog
 from tkinter import messagebox
-from argparse import Namespace
 
 import palEditor
 import os
@@ -15,7 +14,7 @@ class App(Tk):
         super().__init__()
         from palEditorElements import Elements
         
-        self.geometry('300x250')
+        self.geometry('300x270')
         self.title("Palette generator")
         self.resizable(False,False)
         
@@ -23,7 +22,6 @@ class App(Tk):
         self.elements = Elements(self, grid_options)
         
         style = ttk.Style(self)
-        print(style.theme_names())
         #style.configure('TButton', foreground='red')
     
     def change_color_button(self, button, color):
@@ -35,9 +33,13 @@ class App(Tk):
             color.set(new_color)
             
     def generate(self):
-        command_string = Namespace(palette_name=self.elements.file_name.get(), start_color=self.elements.start_color.get(), end_color=self.elements.end_color.get(), gradient_steps=self.elements.steps.get(), color_points=None, interpolation_function='linear', color_space='lab')
+    
+        #Construct the color points list
+        color_list = ((0, self.elements.start_color.get()), (1, self.elements.end_color.get()))
+        
         try:
-            palEditor.mainfunction(command_string)
+            palEditor.mainfunction(palette_file=self.elements.file_name.get(), gradient_steps=self.elements.steps.get(), color_list=color_list)
+            self.elements.file_gen_label.config(text='Palette generated')
         except FileNotFoundError as error:
             messagebox.showerror('No file selected', 'Please select a file.')
         
@@ -46,10 +48,8 @@ class App(Tk):
         if(new_file_name == ""):
             return
         file_name.set(new_file_name)
-        print(file_name.get())
         if(file_name.get()[-4:] != '.pal'):
             file_name.set(file_name.get() + '.pal')
-        print(file_name.get())
        
         self.elements.file_name_label.config(text=file_name.get())
 
