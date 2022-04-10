@@ -14,12 +14,13 @@ class App(Tk):
         super().__init__()
         from palEditorElements import Elements
         
-        self.geometry('300x270')
+        self.geometry('300x250')
         self.title("Palette generator")
         self.resizable(False,False)
         
-        grid_options = {'padx': 5, 'pady':5, 'sticky': 'W'}
-        self.elements = Elements(self, grid_options)
+        element_options = {'padx': 5, 'pady':5, 'sticky': 'W'}
+        frame_options = {'padx': 10, 'pady': 5}
+        self.elements = Elements(self, element_options, frame_options)
         
         style = ttk.Style(self)
         #style.configure('TButton', foreground='red')
